@@ -20,9 +20,30 @@ public class Game implements MouseListener{
 	private JFrame background;
 	private ImagePanel back;
 	public static boolean playedOnce;	
+	public static int score;
+	public static int maxScore;
 
 	public Game(){
+		load(new File("Best.txt"));
 		initiate();
+	}
+	
+	public void load(File file)
+	{
+		try
+		{
+			Scanner reader = new Scanner(file);
+			while(reader.hasNext())
+			{
+				int value = reader.nextInt();
+				if(value > maxScore)
+					maxScore = value;
+			}
+		}
+		catch(IOException i )
+		{
+			System.out.println("Error. "+i);
+		}
 	}
 
 	public void initiate(){
@@ -133,12 +154,41 @@ class ImagePanel extends JPanel {
 		//
 		//		if(plane != null)
 		//			g.drawImage(plane.getImage(), (int)(plane.getX()), (int)(plane.getY()), null);
-		//		drawStrings(g);
+		drawStrings(g);
 	}
 
 	public void drawStrings(Graphics g)
 	{
-
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("Arial",Font.BOLD,20));
+		g.drawString(    "Score:     " + Game.score,500,50);
+		if (Game.score > Game.maxScore)
+			g.drawString("Highscore: " + Game.score,500,100);
+		else
+			g.drawString("Highscore: " + Game.maxScore,500,100);
+		//		g.setColor(Color.WHITE);
+		//		g.setFont(new Font("Arial",Font.BOLD,20));
+		//		g.drawString("Distance: " + PlaneForm.distance,30,500);
+		//		g.setFont(new Font("Arial",Font.BOLD,20));
+		//		if (PlaneForm.distance > PlaneForm.maxDistance)
+		//			g.drawString("Best: " + PlaneForm.distance,650,500);
+		//		else
+		//			g.drawString("Best: " + PlaneForm.maxDistance,650,500);
+		//		if(PlaneForm.paused)
+		//		{
+		//			g.setColor(Color.WHITE);
+		//			g.setFont(new Font("Chiller",Font.BOLD,72));
+		//			g.drawString("Paused",275,260);
+		//			g.setFont(new Font("Chiller",Font.BOLD,30));
+		//			g.drawString("Click to unpause.",280,310);
+		//		}
+		//		if(PlaneForm.crashed){
+		//			g.setColor(Color.BLACK);
+		//			g.setFont(new Font("Arial",Font.BOLD,72));
+		//			g.drawString("You Died!",275,260);
+		//			g.setFont(new Font("Arial",Font.BOLD,30));
+		//			g.drawString("Score: " + PlaneForm.distance,280,310);
+		//		}
 	}
 
 	//Replaces the list of foreground images with the one given, and repaints the panel
