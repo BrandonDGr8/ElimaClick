@@ -22,6 +22,8 @@ public class Game implements MouseListener{
 	public static boolean playedOnce;	
 	public static int score;
 	public static int maxScore;
+	
+	private MovingImage block;
 
 	public Game(){
 		load(new File("Best.txt"));
@@ -51,9 +53,9 @@ public class Game implements MouseListener{
 			background = new JFrame("HackRU Game"); 
 			background.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //closes the program when the window is closed
 			background.setResizable(false); //don't allow the user to resize the window
-			background.setSize(new Dimension(800,600));
+			background.setSize(new Dimension(800,625));
 			background.setVisible(true);
-			back = new ImagePanel("bg.png");
+			back = new ImagePanel("bgandgrid.png");
 			background.add(back);
 			back.addMouseListener(this);
 		}
@@ -161,11 +163,11 @@ class ImagePanel extends JPanel {
 	{
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Arial",Font.BOLD,20));
-		g.drawString(    "Score:     " + Game.score,500,50);
+		g.drawString(    "Score:     " + Game.score,400,50);
 		if (Game.score > Game.maxScore)
-			g.drawString("Highscore: " + Game.score,500,100);
+			g.drawString("Highscore: " + Game.score,400,100);
 		else
-			g.drawString("Highscore: " + Game.maxScore,500,100);
+			g.drawString("Highscore: " + Game.maxScore,400,100);
 		//		g.setColor(Color.WHITE);
 		//		g.setFont(new Font("Arial",Font.BOLD,20));
 		//		g.drawString("Distance: " + PlaneForm.distance,30,500);
