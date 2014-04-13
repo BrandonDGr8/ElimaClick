@@ -22,10 +22,25 @@ public class Game implements MouseListener{
 	public static boolean playedOnce;	
 	public static int score;
 	public static int maxScore;
+	public static int[] row;
+	public static int[] column;
 	
 	private MovingImage block;
 
 	public Game(){
+//		grid = new int[15][9];
+//		for (int row = 0; row < 15; row++){
+//			for (int col = 0; col < 9; col++){
+//				grid[row][col] = 
+//			}
+//		}
+		row = new int[15];
+		for (int i : row)
+			row[i] = i;
+		column = new int[9];
+		for (int i : column)
+			column[i] = i;
+		
 		load(new File("Best.txt"));
 		initiate();
 	}
@@ -60,10 +75,20 @@ public class Game implements MouseListener{
 			back.addMouseListener(this);
 		}
 		playedOnce = true;
-		back.updateImages();
+		block = new MovingImage("RedBlx.png",31,31);
+		back.updateImages(block);
+	}
+	
+	
+	public void drop(){
+		
 	}
 
-
+	public int randomCol(){
+		Random ran = new Random(9);
+		int a = ran.nextInt(9);
+		return a;
+	}
 
 	public void mouseExited(MouseEvent e)
 	{
@@ -99,7 +124,8 @@ public class Game implements MouseListener{
 
 class ImagePanel extends JPanel {
 
-	private Image background;					//The background image
+	private Image background;	
+	private MovingImage block;//The background image
 	//	private ArrayList<MovingImage> top;	//An array list of foreground images
 	//	private ArrayList<MovingImage> bottom;
 	//	private ArrayList<MovingImage> middle;
@@ -142,6 +168,7 @@ class ImagePanel extends JPanel {
 	{
 		//Paint the background with its upper left corner at the upper left corner of the panel
 		g.drawImage(background, 0, 0, null); 
+		g.drawImage(block.getImage(), (int)(block.getX()), (int)(block.getY()), null);
 		//Paint each image in the foreground where it should go
 		//		for(MovingImage img : top)
 		//			g.drawImage(img.getImage(), (int)(img.getX()), (int)(img.getY()), null);
@@ -194,8 +221,9 @@ class ImagePanel extends JPanel {
 	}
 
 	//Replaces the list of foreground images with the one given, and repaints the panel
-	public void updateImages()
+	public void updateImages(MovingImage newBlock)
 	{
+		block = newBlock;
 		repaint();	//This repaints stuff... you don't need to know how it works
 	}
 }
