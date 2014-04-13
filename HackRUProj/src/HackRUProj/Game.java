@@ -18,34 +18,34 @@ public class Game implements MouseListener{
 	}
 
 	public static boolean lost;
-	
+
 
 	private JFrame background;
 	private ImagePanel back;
-	public static boolean playedOnce;	
+	public static boolean playedOnce;   
 	public static int score;
 	public static int maxScore;
 	public static int[] row;
 	public static int[] column;
 	public static MovingImage[][] grid;
 
-	private MovingImage block;
+	private MovingImage example;
 	private ArrayList<MovingImage> fallingBlocks;
-//	private MovingImage fallingBlock;
+	//    private MovingImage fallingBlock;
 
 	public Game(){
-		//		grid = new int[15][9];
-		//		for (int row = 0; row < 15; row++){
-		//			for (int col = 0; col < 9; col++){
-		//				grid[row][col] = 
-		//			}
-		//		}
-		//		row = new int[15];
-		//		for (int i : row)
-		//			row[i] = i;
-		//		column = new int[9];
-		//		for (int i : column)
-		//			column[i] = i;
+		//        grid = new int[15][9];
+		//        for (int row = 0; row < 15; row++){
+		//            for (int col = 0; col < 9; col++){
+		//                grid[row][col] =
+		//            }
+		//        }
+		//        row = new int[15];
+		//        for (int i : row)
+		//            row[i] = i;
+		//        column = new int[9];
+		//        for (int i : column)
+		//            column[i] = i;
 
 		load(new File("Best.txt"));
 		initiate();
@@ -78,7 +78,7 @@ public class Game implements MouseListener{
 
 	public void initiate(){
 		if(!playedOnce){
-			background = new JFrame("HackRU Game"); 
+			background = new JFrame("HackRU Game");
 			background.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //closes the program when the window is closed
 			background.setResizable(false); //don't allow the user to resize the window
 			background.setSize(new Dimension(800,624));
@@ -90,7 +90,8 @@ public class Game implements MouseListener{
 		lost = false;
 		playedOnce = true;
 		grid = new MovingImage[15][9]; /*creating a 15x9 that represents the grid*/
-//		block = new MovingImage("RedBlx.png",31,31);
+		//        block = new MovingImage("RedBlx.png",31,31);
+		example = new MovingImage(0, "Colorwheel2.png", 400, 130);
 		fallingBlocks = new ArrayList<MovingImage>();
 		setInitialBlocks();
 		draw();
@@ -98,13 +99,13 @@ public class Game implements MouseListener{
 
 	public void draw(){
 		while(true){
-			back.updateImages(grid);
+			back.updateImages(grid, example);
 			if(lost){
 				break;
 			}
-		}		
+		}       
 
-		
+
 	}
 
 
@@ -114,7 +115,7 @@ public class Game implements MouseListener{
 				if (grid[row][col] != null && grid[row+1][col] == null){
 					setBlockPosition(row+1,col,grid[row][col]);
 					grid[row][col] = null;
-				}	
+				}   
 			}
 		}
 		for (int col = 0; col < 9; col++) {
@@ -124,6 +125,39 @@ public class Game implements MouseListener{
 			}
 		}
 
+	}
+
+	public void dropDelete(){
+		for (int row = 14; row > 0; row--){
+			if  ( grid[row][0] != null ) {
+				int color = grid[row][0].getColor();
+				int count = 1;
+				for (int col = 1; col < 9; col++) {
+					if (grid[row][col] != null &&  color == grid[row][col].getColor() ){
+						count++;
+					}   
+				}
+
+				if ( count == 9 ) {
+					for (int col = 0; col < 9; col++) {
+						grid[row][col] = null;
+					}
+					shiftRow(row - 1);
+				}
+			}
+		}
+	}
+
+	public void shiftRow(int rowIndex) {
+		for (int row=rowIndex; row > 0; row--) {
+			for (int col = 0; col < 9; col++) {
+				if (grid[row][col] != null){
+					setBlockPosition(row+1,col,grid[row][col]);
+					grid[row][col] = null;
+					score++;
+				}   
+			}
+		}
 	}
 
 	public int randomCol(){
@@ -137,27 +171,27 @@ public class Game implements MouseListener{
 		int n = ran.nextInt(5);
 		int x = randomCol();
 		if (n == 0){
-			fallingBlocks.add(new MovingImage("BlueBlx.png", 1, 1));
+			fallingBlocks.add(new MovingImage(n, "BrownBlx.png", 1, 1));
 			setBlockPosition(0, x, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 1){
-			fallingBlocks.add(new MovingImage("BrownBlx.png", 1, 1));
+			fallingBlocks.add(new MovingImage(n, "BlueBlx.png", 1, 1));
 			setBlockPosition(0, x, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 2){
-			fallingBlocks.add(new MovingImage("GreenBlk.png", 1, 1));
+			fallingBlocks.add(new MovingImage(n, "GreenBlk.png", 1, 1));
 			setBlockPosition(0, x, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 3){
-			fallingBlocks.add(new MovingImage("PinkBlx.png", 1, 1));
+			fallingBlocks.add(new MovingImage(n, "PinkBlx.png", 1, 1));
 			setBlockPosition(0, x, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 4){
-			fallingBlocks.add(new MovingImage("RedBlx.png", 1, 1));
+			fallingBlocks.add(new MovingImage(n, "RedBlx.png", 1, 1));
 			setBlockPosition(0, x, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 	}
-	
+
 	public void setInitialBlocks(){
 		for (int row = 14; row > 10; row--){
 			for (int col = 0; col < 9; col++){
@@ -165,28 +199,28 @@ public class Game implements MouseListener{
 			}
 		}
 	}
-	
+
 	public void randomColor(double x, double y){
 		Random ran = new Random();
 		int n = ran.nextInt(5);
 		if (n == 0){
-			fallingBlocks.add(new MovingImage("BlueBlx.png", 1, 1));
+			fallingBlocks.add(new MovingImage(n, "BrownBlx.png", 1, 1));
 			setBlockPosition(x, y, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 1){
-			fallingBlocks.add(new MovingImage("BrownBlx.png", 1, 1));
+			fallingBlocks.add(new MovingImage(n, "BlueBlx.png", 1, 1));
 			setBlockPosition(x, y, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 2){
-			fallingBlocks.add(new MovingImage("GreenBlk.png", 1, 1));
+			fallingBlocks.add(new MovingImage(n, "GreenBlk.png", 1, 1));
 			setBlockPosition(x, y, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 3){
-			fallingBlocks.add(new MovingImage("PinkBlx.png", 1, 1));
+			fallingBlocks.add(new MovingImage(n, "PinkBlx.png", 1, 1));
 			setBlockPosition(x, y, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 4){
-			fallingBlocks.add(new MovingImage("RedBlx.png", 1, 1));
+			fallingBlocks.add(new MovingImage(n, "RedBlx.png", 1, 1));
 			setBlockPosition(x, y, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 	}
@@ -215,11 +249,30 @@ public class Game implements MouseListener{
 	}
 
 	//Called when the mouse is released
+	//Called when the mouse is released
 	public void mouseClicked(MouseEvent e)
 	{
-		newBlock();
-		drop();
+		if (!lost){
+			int row = e.getY();
+			int col  = e.getX();
+			if (row < 1299 && col < 358)
+				if ((col - 30) % 36 != 0 && ((row-30) % 36 !=0))
+				{
+					row = (row-30) / 36;
+					col = (col-30) / 36;
+				}
+
+			if (grid[row][col] != null)
+			{
+				grid[row][col].changeColor();
+
+				newBlock();
+				dropDelete();
+				drop();
+			}
+		}
 	}
+
 }
 
 
@@ -227,20 +280,21 @@ public class Game implements MouseListener{
 class ImagePanel extends JPanel {
 
 	private Image background;
+	private MovingImage example;
 	private MovingImage[][] grid;
-//	private MovingImage block;
-	//	private ArrayList<MovingImage> top;	//An array list of foreground images
-	//	private ArrayList<MovingImage> bottom;
-	//	private ArrayList<MovingImage> middle;
-	//	private MovingImage plane;
-	//	private ArrayList<MovingImage> smoke;
-	//	private ArrayList<MovingImage> firstSmoke;
-	//	private MovingImage explode;
+	//    private MovingImage block;
+	//    private ArrayList<MovingImage> top;    //An array list of foreground images
+	//    private ArrayList<MovingImage> bottom;
+	//    private ArrayList<MovingImage> middle;
+	//    private MovingImage plane;
+	//    private ArrayList<MovingImage> smoke;
+	//    private ArrayList<MovingImage> firstSmoke;
+	//    private MovingImage explode;
 
 	//Constructs a new ImagePanel with the background image specified by the file path given
-	public ImagePanel(String img) 
+	public ImagePanel(String img)
 	{
-		this(new ImageIcon(img).getImage());	
+		this(new ImageIcon(img).getImage());   
 		//The easiest way to make images from file paths in Swing
 	}
 
@@ -248,7 +302,7 @@ class ImagePanel extends JPanel {
 	public ImagePanel(Image img)
 	{
 		background = img;
-		Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));	
+		Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));   
 		//Get the size of the image
 		//Thoroughly make the size of the panel equal to the size of the image
 		//(Various layout managers will try to mess with the size of things to fit everything)
@@ -258,20 +312,21 @@ class ImagePanel extends JPanel {
 		setSize(size);
 
 		grid = new MovingImage[15][9];
-		//		top = new ArrayList<MovingImage>();
-		//		middle = new ArrayList<MovingImage>();
-		//		bottom = new ArrayList<MovingImage>();
+		//        top = new ArrayList<MovingImage>();
+		//        middle = new ArrayList<MovingImage>();
+		//        bottom = new ArrayList<MovingImage>();
 		//
-		//		smoke = new ArrayList<MovingImage>();
-		//		firstSmoke = new ArrayList<MovingImage>();
+		//        smoke = new ArrayList<MovingImage>();
+		//        firstSmoke = new ArrayList<MovingImage>();
 	}
 
 	//This is called whenever the computer decides to repaint the window
 	//It's a method in JPanel that I've overwritten to paint the background and foreground images
-	public void paintComponent(Graphics g) 
+	public void paintComponent(Graphics g)
 	{
 		//Paint the background with its upper left corner at the upper left corner of the panel
-		g.drawImage(background, 0, 0, null); 
+		g.drawImage(background, 0, 0, null);
+		g.drawImage(example.getImage(), (int)example.getX(), (int)example.getY(), null);
 		//Paint each image in the foreground where it should go
 		for (int row = 0; row < 15; row++){
 			for (int col = 0; col < 9; col++) {
@@ -279,18 +334,18 @@ class ImagePanel extends JPanel {
 					g.drawImage(grid[row][col].getImage(), (int)(grid[row][col].getX()), (int)(grid[row][col].getY()), null);
 			}
 		}
-					
-		//		for(MovingImage img : middle)
-		//			g.drawImage(img.getImage(), (int)(img.getX()), (int)(img.getY()), null);
-		//		for(MovingImage img : bottom)
-		//			g.drawImage(img.getImage(), (int)(img.getX()), (int)(img.getY()), null);
-		//		for(MovingImage img : firstSmoke)
-		//			g.drawImage(img.getImage(), (int)(img.getX()), (int)(img.getY()), null);
-		//		for(MovingImage img : smoke)
-		//			g.drawImage(img.getImage(), (int)(img.getX()), (int)(img.getY()), null);
+
+		//        for(MovingImage img : middle)
+		//            g.drawImage(img.getImage(), (int)(img.getX()), (int)(img.getY()), null);
+		//        for(MovingImage img : bottom)
+		//            g.drawImage(img.getImage(), (int)(img.getX()), (int)(img.getY()), null);
+		//        for(MovingImage img : firstSmoke)
+		//            g.drawImage(img.getImage(), (int)(img.getX()), (int)(img.getY()), null);
+		//        for(MovingImage img : smoke)
+		//            g.drawImage(img.getImage(), (int)(img.getX()), (int)(img.getY()), null);
 		//
-		//		if(plane != null)
-		//			g.drawImage(plane.getImage(), (int)(plane.getX()), (int)(plane.getY()), null);
+		//        if(plane != null)
+		//            g.drawImage(plane.getImage(), (int)(plane.getX()), (int)(plane.getY()), null);
 		drawStrings(g);
 	}
 
@@ -308,40 +363,65 @@ class ImagePanel extends JPanel {
 			g.drawString("You lose!",150,300);
 		}
 
-		g.drawString(    "Instructions:", 400,150);
-		g.drawString(    "Click boxes to change color",400,200);
-		g.drawString(    "Match colors together",400,230);
-		g.drawString(    "Don't let colors get to the top!",400,260);
-		//		g.setColor(Color.WHITE);
-		//		g.setFont(new Font("Arial",Font.BOLD,20));
-		//		g.drawString("Distance: " + PlaneForm.distance,30,500);
-		//		g.setFont(new Font("Arial",Font.BOLD,20));
-		//		if (PlaneForm.distance > PlaneForm.maxDistance)
-		//			g.drawString("Best: " + PlaneForm.distance,650,500);
-		//		else
-		//			g.drawString("Best: " + PlaneForm.maxDistance,650,500);
-		//		if(PlaneForm.paused)
-		//		{
-		//			g.setColor(Color.WHITE);
-		//			g.setFont(new Font("Chiller",Font.BOLD,72));
-		//			g.drawString("Paused",275,260);
-		//			g.setFont(new Font("Chiller",Font.BOLD,30));
-		//			g.drawString("Click to unpause.",280,310);
-		//		}
-		//		if(PlaneForm.crashed){
-		//			g.setColor(Color.BLACK);
-		//			g.setFont(new Font("Arial",Font.BOLD,72));
-		//			g.drawString("You Died!",275,260);
-		//			g.setFont(new Font("Arial",Font.BOLD,30));
-		//			g.drawString("Score: " + PlaneForm.distance,280,310);
-		//		}
+		if(Game.score > Game.maxScore) 
+		{
+			Game.maxScore = Game.score;
+			save(Game.maxScore, Game.score);
+		}
+
+
+		g.drawString(    "Instructions:", 400,200);
+		g.drawString(    "Click boxes to change color",400,250);
+		g.drawString(    "Get a row to be the same color",400,280);
+		g.drawString(    "Don't let colors get to the top!",400,310);
+		//        g.setColor(Color.WHITE);
+		//        g.setFont(new Font("Arial",Font.BOLD,20));
+		//        g.drawString("Distance: " + PlaneForm.distance,30,500);
+		//        g.setFont(new Font("Arial",Font.BOLD,20));
+		//        if (PlaneForm.distance > PlaneForm.maxDistance)
+		//            g.drawString("Best: " + PlaneForm.distance,650,500);
+		//        else
+		//            g.drawString("Best: " + PlaneForm.maxDistance,650,500);
+		//        if(PlaneForm.paused)
+		//        {
+		//            g.setColor(Color.WHITE);
+		//            g.setFont(new Font("Chiller",Font.BOLD,72));
+		//            g.drawString("Paused",275,260);
+		//            g.setFont(new Font("Chiller",Font.BOLD,30));
+		//            g.drawString("Click to unpause.",280,310);
+		//        }
+		//        if(PlaneForm.crashed){
+		//            g.setColor(Color.BLACK);
+		//            g.setFont(new Font("Arial",Font.BOLD,72));
+		//            g.drawString("You Died!",275,260);
+		//            g.setFont(new Font("Arial",Font.BOLD,30));
+		//            g.drawString("Score: " + PlaneForm.distance,280,310);
+		//        }
+	}
+
+	public void save(int a, int b)
+	{
+		int highscore = a;
+		int score = b;
+		FileWriter out;
+		try
+		{
+			out = new FileWriter("Best.txt");
+			out.write("" + highscore);
+			out.close();
+		}
+		catch(IOException i)
+		{
+			System.out.println("Error: "+i.getMessage());
+		}
 	}
 
 	//Replaces the list of foreground images with the one given, and repaints the panel
-	public void updateImages(MovingImage[][] newGrid)
+	public void updateImages(MovingImage[][] newGrid, MovingImage newExample)
 	{
 		grid = newGrid;
-		repaint();	//This repaints stuff... you don't need to know how it works
+		example = newExample;
+		repaint();    //This repaints stuff... you don't need to know how it works
 	}
 
 }
@@ -349,23 +429,45 @@ class ImagePanel extends JPanel {
 
 class MovingImage
 {
-	private Image image;		//The picture
-	private double x;			//X position
-	private double y;			//Y position
+	private int cycle;            //Cycle
+	private Image image;        //The picture
+	private double x;            //X position
+	private double y;            //Y position
 
 	//Construct a new Moving Image with image, x position, and y position given
-	public MovingImage(Image img, double xPos, double yPos)
+	public MovingImage(int cyc, Image img, double xPos, double yPos)
 	{
+		cycle = cyc;
 		image = img;
 		x = xPos;
 		y = yPos;
 	}
 
 	//Construct a new Moving Image with image (from file path), x position, and y position given
-	public MovingImage(String path, double xPos, double yPos)
+	public MovingImage(int cyc, String path, double xPos, double yPos)
 	{
-		this(new ImageIcon(path).getImage(), xPos, yPos);	
+		this(cyc, new ImageIcon(path).getImage(), xPos, yPos);   
 		//easiest way to make an image from a file path in Swing
+	}
+
+	public int getColor() {
+		return cycle;
+	}
+
+	//Sets the color of the block to the next color of the cycle
+	public void changeColor()
+	{
+		cycle = (cycle + 1) % 5;
+		if (cycle == 0)
+			setImage("Brownblx.png");
+		else if (cycle == 1)
+			setImage("Blueblx.png");
+		else if (cycle == 2)
+			setImage("Greenblk.png");
+		else if (cycle == 3)
+			setImage("Pinkblx.png");
+		else if (cycle == 4)
+			setImage("RedBlx.png");
 	}
 
 	//They are set methods.  I don't feel like commenting them.
