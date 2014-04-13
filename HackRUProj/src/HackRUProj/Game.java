@@ -116,26 +116,26 @@ public class Game implements MouseListener{
 		Random ran = new Random();
 		int n = ran.nextInt(5);
 		if (n == 0){
-			fallingBlock = new MovingImage("BlueBlx.png",31,randomCol());
-			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
+			fallingBlock = new MovingImage("BlueBlx.png",1,1);
+			setBlockPosition(randomCol(), 0, fallingBlock);
 		}
 		else if (n == 1){
-			fallingBlock = new MovingImage("BrownBlx.png",31,randomCol());
-			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
+			fallingBlock = new MovingImage("BrownBlx.png",1,1);
+			setBlockPosition(randomCol(), 0, fallingBlock);
 		}
 		else if (n == 2){
-			fallingBlock = new MovingImage("GreenBlk.png",31,randomCol());
-			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
+			fallingBlock = new MovingImage("GreenBlk.png",1,1);
+			setBlockPosition(randomCol(), 0, fallingBlock);
 		}
 		else if (n == 3){
-			fallingBlock = new MovingImage("PinkBlx.png",31,randomCol());
-			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
+			fallingBlock = new MovingImage("PinkBlx.png",1,1);
+			setBlockPosition(randomCol(), 0, fallingBlock);
 		}
 		else if (n == 4){
-			fallingBlock = new MovingImage("RedBlx.png",31,randomCol());
-			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
+			fallingBlock = new MovingImage("RedBlx.png",1,1);
+			setBlockPosition(randomCol(), 0, fallingBlock);
 		}
-		System.out.println(ran);
+		System.out.println(n);
 	}
 
 	public void mouseExited(MouseEvent e)
