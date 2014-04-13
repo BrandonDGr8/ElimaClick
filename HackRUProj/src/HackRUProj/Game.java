@@ -106,30 +106,32 @@ public class Game implements MouseListener{
 //			setBlockPosition(fallingBlock.getX()+31, fallingBlock.getY(), fallingBlock);
 	}
 
-	public double randomCol(){
-		double ran = (int)Math.random()*9;
-		return ran;
+	public int randomCol(){
+		Random ran = new Random();
+		int a = ran.nextInt(9);
+		return a;
 	}
 
 	public void randomColor(){
-		double ran = Math.random();
-		if (ran < 0.2){
+		Random ran = new Random();
+		int n = ran.nextInt(5);
+		if (n == 0){
 			fallingBlock = new MovingImage("BlueBlx.png",31,randomCol());
 			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
 		}
-		else if (ran < 0.4){
+		else if (n == 1){
 			fallingBlock = new MovingImage("BrownBlx.png",31,randomCol());
 			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
 		}
-		else if (ran < 0.6){
+		else if (n == 2){
 			fallingBlock = new MovingImage("GreenBlk.png",31,randomCol());
 			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
 		}
-		else if (ran < 0.8){
+		else if (n == 3){
 			fallingBlock = new MovingImage("PinkBlx.png",31,randomCol());
 			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
 		}
-		else {
+		else if (n == 4){
 			fallingBlock = new MovingImage("RedBlx.png",31,randomCol());
 			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
 		}
