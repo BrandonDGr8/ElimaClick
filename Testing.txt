@@ -1,0 +1,6 @@
+MovingImage[] [] grid = new MovingImage[15][9]; /*creating a 15x9 that represents the grid*/
+
+public void setBlockPosition(double x, double y, MovingImage a) {
+	grid[(int)x][(int)y] = a; /*fill the appropriate slot in the grid array with the inputted MovingImage*/
+	a.setPosition(x*35 + 100,y*35 + 100); /*35 because every block is 35 wide, 100 as a placeholder for the offset of the grid itself from the edge of the game screen*/
+	}
