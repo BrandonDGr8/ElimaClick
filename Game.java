@@ -206,12 +206,14 @@ public class Game implements MouseListener{
 						for (int rowTest = row-3; grid[rowTest][col] != null && grid[row][col].getImage() == grid[rowTest][col].getImage(); rowTest--) {
 							fallingBlocks.set(fallingBlocks.indexOf(grid[rowTest][col]), null);
 							grid[rowTest][col] = null;
+							drop();
 						}
 					}
 					if (col+1<9 && grid[row][col+1] != null && grid[row][col].getImage() == grid[row][col+1].getImage() && col+2<9 && grid[row][col+2] != null && grid[row][col].getImage() == grid[row][col+2].getImage()) {
 						for (int colTest = col+3; grid[row][colTest] != null && grid[row][col].getImage() == grid[row][colTest].getImage(); colTest++) {
 							fallingBlocks.set(fallingBlocks.indexOf(grid[row][colTest]), null);
 							grid[row][colTest] = null;
+							drop();
 						}
 						fallingBlocks.set(fallingBlocks.indexOf(grid[row][col]), null);
 						grid[row][col] = null;
@@ -223,6 +225,7 @@ public class Game implements MouseListener{
 						grid[row-1][col] = null;
 						fallingBlocks.set(fallingBlocks.indexOf(grid[row-2][col]), null);
 						grid[row-2][col] = null;
+						drop();
 					} else {
 						fallingBlocks.set(fallingBlocks.indexOf(grid[row][col]), null);
 						grid[row][col] = null;
@@ -230,17 +233,20 @@ public class Game implements MouseListener{
 						grid[row-1][col] = null;
 						fallingBlocks.set(fallingBlocks.indexOf(grid[row-2][col]), null);
 						grid[row-2][col] = null;
+						drop();
 					}
 				}
 				else if (col+1<9 && grid[row][col+1] != null && grid[row][col].getImage() == grid[row][col+1].getImage() && col+2<9 && grid[row][col+2] != null && grid[row][col].getImage() == grid[row][col+2].getImage()) {
 					if (col+3<9) {
 						for (int colTest = col+3; grid[row][colTest] != null && grid[row][col].getImage() == grid[row][colTest].getImage(); colTest++) {
 							grid[row][colTest] = null;
+							drop();
 						}
 					}
 					grid[row][col] = null;
 					grid[row][col+1] = null;
 					grid[row][col+2] = null;
+					drop();
 				}
 			}
 		}
