@@ -78,7 +78,7 @@ public class Game implements MouseListener{
 
 	public void initiate(){
 		if(!playedOnce){
-			background = new JFrame("HackRU Game");
+			background = new JFrame("Elima-Click");
 			background.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //closes the program when the window is closed
 			background.setResizable(false); //don't allow the user to resize the window
 			background.setSize(new Dimension(800,624));
