@@ -98,6 +98,7 @@ public class Game implements MouseListener{
 
 	public void draw(){
 		while(true){
+			match();
 			back.updateImages(grid);
 			if(lost){
 				break;
@@ -190,6 +191,62 @@ public class Game implements MouseListener{
 			setBlockPosition(x, y, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 	}
+	
+	public void match() {
+		for (int row = 14; row >= 0; row--) {
+			if (grid[row][0] == null && grid[row][1] == null && grid[row][2] == null && grid[row][3] == null && grid[row][4] == null && grid[row][5] == null && grid[row][6] == null && grid[row][7] == null && grid[row][8] == null) {
+				break;
+			}
+			for (int col = 0; col < 9; col++) {
+				if (grid[row][col] == null) {
+					continue;
+				}
+				if (row-1 > 0 && grid[row-1][col] != null && grid[row][col].getImage() == grid[row-1][col].getImage() && row-2 > 0 && grid[row-2][col] != null && grid[row][col].getImage() == grid[row-2][col].getImage()) {
+					if (row-3 > 0) {
+						for (int rowTest = row-3; grid[rowTest][col] != null && grid[row][col].getImage() == grid[rowTest][col].getImage(); rowTest--) {
+							fallingBlocks.set(fallingBlocks.indexOf(grid[rowTest][col]), null);
+							grid[rowTest][col] = null;
+						}
+					}
+					if (col+1<9 && grid[row][col+1] != null && grid[row][col].getImage() == grid[row][col+1].getImage() && col+2<9 && grid[row][col+2] != null && grid[row][col].getImage() == grid[row][col+2].getImage()) {
+						for (int colTest = col+3; grid[row][colTest] != null && grid[row][col].getImage() == grid[row][colTest].getImage(); colTest++) {
+							fallingBlocks.set(fallingBlocks.indexOf(grid[row][colTest]), null);
+							grid[row][colTest] = null;
+						}
+						fallingBlocks.set(fallingBlocks.indexOf(grid[row][col]), null);
+						grid[row][col] = null;
+						fallingBlocks.set(fallingBlocks.indexOf(grid[row][col+1]), null);
+						grid[row][col+1] = null;
+						fallingBlocks.set(fallingBlocks.indexOf(grid[row][col+2]), null);
+						grid[row][col+2] = null;
+						fallingBlocks.set(fallingBlocks.indexOf(grid[row-1][col]), null);
+						grid[row-1][col] = null;
+						fallingBlocks.set(fallingBlocks.indexOf(grid[row-2][col]), null);
+						grid[row-2][col] = null;
+					} else {
+						fallingBlocks.set(fallingBlocks.indexOf(grid[row][col]), null);
+						grid[row][col] = null;
+						fallingBlocks.set(fallingBlocks.indexOf(grid[row-1][col]), null);
+						grid[row-1][col] = null;
+						fallingBlocks.set(fallingBlocks.indexOf(grid[row-2][col]), null);
+						grid[row-2][col] = null;
+					}
+				}
+				else if (col+1<9 && grid[row][col+1] != null && grid[row][col].getImage() == grid[row][col+1].getImage() && col+2<9 && grid[row][col+2] != null && grid[row][col].getImage() == grid[row][col+2].getImage()) {
+					if (col+3<9) {
+						for (int colTest = col+3; grid[row][colTest] != null && grid[row][col].getImage() == grid[row][colTest].getImage(); colTest++) {
+							grid[row][colTest] = null;
+						}
+					}
+					grid[row][col] = null;
+					grid[row][col+1] = null;
+					grid[row][col+2] = null;
+				}
+			}
+		}
+	}
+	
+
 
 	public void mouseExited(MouseEvent e)
 	{
