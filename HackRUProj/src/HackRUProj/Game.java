@@ -68,7 +68,7 @@ public class Game implements MouseListener{
 
 	public void setBlockPosition(double x, double y, MovingImage a) {
 		grid[(int)x][(int)y] = a; /*fill the appropriate slot in the grid array with the inputted MovingImage*/
-		a.setPosition(x*36 + 31,y*36 + 31); /*35 because every block is 35 wide, 100 as a placeholder for the offset of the grid itself from the edge of the game screen*/
+		a.setPosition(y*36 + 31,x*36 + 31); /*35 because every block is 35 wide, 100 as a placeholder for the offset of the grid itself from the edge of the game screen*/
 	}
 
 
@@ -100,11 +100,15 @@ public class Game implements MouseListener{
 
 
 	public void drop(){
-		randomColor();
-//		double r = fallingBlock.getX();
-		System.out.println("Hi");
-//		if (fallingBlock.getX() > 15)
-//			setBlockPosition(fallingBlock.getX()+31, fallingBlock.getY(), fallingBlock);
+		for (int row = 0; row < 14; row++){
+			for (int col = 0; col < 9; col++) {
+				if (grid[row][col] != null && grid[row+1][col] == null){
+					setBlockPosition(row+1,col,grid[row][col]);
+					grid[row][col] = null;
+					System.out.println("Hi");
+				}	
+			}
+		}
 	}
 
 	public int randomCol(){
@@ -113,29 +117,31 @@ public class Game implements MouseListener{
 		return a;
 	}
 
-	public void randomColor(){
+	public void newBlock(){
 		Random ran = new Random();
 		int n = ran.nextInt(5);
+		int x = randomCol();
 		if (n == 0){
 			fallingBlocks.add(new MovingImage("BlueBlx.png", 1, 1));
-			setBlockPosition(randomCol(), 0, fallingBlocks.get(fallingBlocks.size()-1));
+			setBlockPosition(0, x, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 1){
 			fallingBlocks.add(new MovingImage("BrownBlx.png", 1, 1));
-			setBlockPosition(randomCol(), 0, fallingBlocks.get(fallingBlocks.size()-1));
+			setBlockPosition(0, x, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 2){
 			fallingBlocks.add(new MovingImage("GreenBlk.png", 1, 1));
-			setBlockPosition(randomCol(), 0, fallingBlocks.get(fallingBlocks.size()-1));
+			setBlockPosition(0, x, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 3){
 			fallingBlocks.add(new MovingImage("PinkBlx.png", 1, 1));
-			setBlockPosition(randomCol(), 0, fallingBlocks.get(fallingBlocks.size()-1));
+			setBlockPosition(0, x, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 4){
 			fallingBlocks.add(new MovingImage("RedBlx.png", 1, 1));
-			setBlockPosition(randomCol(), 0, fallingBlocks.get(fallingBlocks.size()-1));
+			setBlockPosition(0, x, fallingBlocks.get(fallingBlocks.size()-1));
 		}
+		System.out.println(x);
 	}
 
 	public void mouseExited(MouseEvent e)
@@ -164,6 +170,7 @@ public class Game implements MouseListener{
 	//Called when the mouse is released
 	public void mouseClicked(MouseEvent e)
 	{
+		newBlock();
 		drop();
 	}
 }
