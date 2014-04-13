@@ -27,7 +27,7 @@ public class Game implements MouseListener{
 	public static MovingImage[][] grid;
 
 	private MovingImage block;
-	private ArrayList<MovingImage> fallingBlock;
+	private MovingImage fallingBlock;
 
 	public Game(){
 		//		grid = new int[15][9];
@@ -85,20 +85,25 @@ public class Game implements MouseListener{
 		}
 		playedOnce = true;
 		grid = new MovingImage[15][9]; /*creating a 15x9 that represents the grid*/
-		block = new MovingImage("RedBlx.png",31,31);
-		fallingBlock = new ArrayList<MovingImage>();
+//		block = new MovingImage("RedBlx.png",31,31);
+//		fallingBlock = new MovingImage();
 		draw();
 	}
 
 	public void draw(){
-		setBlockPosition(3,6,block);
-		back.updateImages(block);
+		while(true){
+			back.updateImages();
+		}
+		
 	}
 
 
 	public void drop(){
 		randomColor();
-//		setBlockPosition()
+//		double r = fallingBlock.getX();
+		System.out.println("Hi");
+//		if (fallingBlock.getX() > 15)
+//			setBlockPosition(fallingBlock.getX()+31, fallingBlock.getY(), fallingBlock);
 	}
 
 	public int randomCol(){
@@ -108,17 +113,28 @@ public class Game implements MouseListener{
 	}
 
 	public void randomColor(){
-		Random ran = new Random(4);
-		if (ran.nextInt() == 0)
-			fallingBlock.add(new MovingImage("BlueBlx.png",31,randomCol()));
-		else if (ran.nextInt() == 1)
-			fallingBlock.add(new MovingImage("BrownBlx.png",31,randomCol()));
-		else if (ran.nextInt() == 2)
-			fallingBlock.add(new MovingImage("GreenBlk.png",31,randomCol()));
-		else if (ran.nextInt() == 3)
-			fallingBlock.add(new MovingImage("PinkBlx.png",31,randomCol()));
-		else if (ran.nextInt() == 1)
-			fallingBlock.add(new MovingImage("RedBlx.png",31,randomCol()));
+		Random ran = new Random(5);
+		if (ran.nextInt() == 0){
+			fallingBlock = new MovingImage("BlueBlx.png",31,randomCol());
+			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
+		}
+		else if (ran.nextInt() == 1){
+			fallingBlock = new MovingImage("BrownBlx.png",31,randomCol());
+			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
+		}
+		else if (ran.nextInt() == 2){
+			fallingBlock = new MovingImage("GreenBlk.png",31,randomCol());
+			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
+		}
+		else if (ran.nextInt() == 3){
+			fallingBlock = new MovingImage("PinkBlx.png",31,randomCol());
+			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
+		}
+		else if (ran.nextInt() == 4){
+			fallingBlock = new MovingImage("RedBlx.png",31,randomCol());
+			setBlockPosition(fallingBlock.getX(), fallingBlock.getY(), fallingBlock);
+		}
+		System.out.println(ran.nextInt());
 	}
 
 	public void mouseExited(MouseEvent e)
@@ -156,7 +172,8 @@ public class Game implements MouseListener{
 class ImagePanel extends JPanel {
 
 	private Image background;	
-	private MovingImage block;//The background image
+//	private MovingImage fallingBlock;
+//	private MovingImage block;
 	//	private ArrayList<MovingImage> top;	//An array list of foreground images
 	//	private ArrayList<MovingImage> bottom;
 	//	private ArrayList<MovingImage> middle;
@@ -199,7 +216,8 @@ class ImagePanel extends JPanel {
 	{
 		//Paint the background with its upper left corner at the upper left corner of the panel
 		g.drawImage(background, 0, 0, null); 
-		g.drawImage(block.getImage(), (int)(block.getX()), (int)(block.getY()), null);
+//		g.drawImage(fallingBlock.getImage(), (int)(fallingBlock.getX()), (int)(fallingBlock.getY()), null);
+//		g.drawImage(block.getImage(), (int)(block.getX()), (int)(block.getY()), null);
 		//Paint each image in the foreground where it should go
 		//		for(MovingImage img : top)
 		//			g.drawImage(img.getImage(), (int)(img.getX()), (int)(img.getY()), null);
@@ -252,9 +270,13 @@ class ImagePanel extends JPanel {
 	}
 
 	//Replaces the list of foreground images with the one given, and repaints the panel
-	public void updateImages(MovingImage newBlock)
+	public void updateImages(MovingImage newFallingBlock)
 	{
-		block = newBlock;
+//		fallingBlock = newFallingBlock;
+		repaint();	//This repaints stuff... you don't need to know how it works
+	}
+	public void updateImages()
+	{
 		repaint();	//This repaints stuff... you don't need to know how it works
 	}
 }
