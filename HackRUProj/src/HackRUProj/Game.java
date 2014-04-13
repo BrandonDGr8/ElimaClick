@@ -86,13 +86,13 @@ public class Game implements MouseListener{
 		playedOnce = true;
 		grid = new MovingImage[15][9]; /*creating a 15x9 that represents the grid*/
 //		block = new MovingImage("RedBlx.png",31,31);
-//		fallingBlock = new MovingImage();
+		fallingBlock = new MovingImage("EmptyBlock.png",1,1);
 		draw();
 	}
 
 	public void draw(){
 		while(true){
-			back.updateImages();
+			back.updateImages(grid);
 		}
 		
 	}
@@ -116,26 +116,25 @@ public class Game implements MouseListener{
 		Random ran = new Random();
 		int n = ran.nextInt(5);
 		if (n == 0){
-			fallingBlock = new MovingImage("BlueBlx.png",1,1);
+			fallingBlock.setImage("BlueBlx.png");
 			setBlockPosition(randomCol(), 0, fallingBlock);
 		}
 		else if (n == 1){
-			fallingBlock = new MovingImage("BrownBlx.png",1,1);
+			fallingBlock.setImage("BrownBlx.png");
 			setBlockPosition(randomCol(), 0, fallingBlock);
 		}
 		else if (n == 2){
-			fallingBlock = new MovingImage("GreenBlk.png",1,1);
+			fallingBlock.setImage("GreenBlk.png");
 			setBlockPosition(randomCol(), 0, fallingBlock);
 		}
 		else if (n == 3){
-			fallingBlock = new MovingImage("PinkBlx.png",1,1);
+			fallingBlock.setImage("PinkBlx.png");
 			setBlockPosition(randomCol(), 0, fallingBlock);
 		}
 		else if (n == 4){
-			fallingBlock = new MovingImage("RedBlx.png",1,1);
+			fallingBlock.setImage("RedBlx.png");
 			setBlockPosition(randomCol(), 0, fallingBlock);
 		}
-		System.out.println(n);
 	}
 
 	public void mouseExited(MouseEvent e)
@@ -172,8 +171,8 @@ public class Game implements MouseListener{
 
 class ImagePanel extends JPanel {
 
-	private Image background;	
-//	private MovingImage fallingBlock;
+	private Image background;
+	private MovingImage[][] grid;
 //	private MovingImage block;
 	//	private ArrayList<MovingImage> top;	//An array list of foreground images
 	//	private ArrayList<MovingImage> bottom;
@@ -203,6 +202,7 @@ class ImagePanel extends JPanel {
 		setMaximumSize(size);
 		setSize(size);
 
+		grid = new MovingImage[15][9];
 		//		top = new ArrayList<MovingImage>();
 		//		middle = new ArrayList<MovingImage>();
 		//		bottom = new ArrayList<MovingImage>();
@@ -217,11 +217,14 @@ class ImagePanel extends JPanel {
 	{
 		//Paint the background with its upper left corner at the upper left corner of the panel
 		g.drawImage(background, 0, 0, null); 
-//		g.drawImage(fallingBlock.getImage(), (int)(fallingBlock.getX()), (int)(fallingBlock.getY()), null);
-//		g.drawImage(block.getImage(), (int)(block.getX()), (int)(block.getY()), null);
 		//Paint each image in the foreground where it should go
-		//		for(MovingImage img : top)
-		//			g.drawImage(img.getImage(), (int)(img.getX()), (int)(img.getY()), null);
+		for (int row = 0; row < 15; row++){
+			for (int col = 0; col < 9; col++) {
+				if (grid[row][col] != null)
+					g.drawImage(grid[row][col].getImage(), (int)(grid[row][col].getX()), (int)(grid[row][col].getY()), null);
+			}
+		}
+					
 		//		for(MovingImage img : middle)
 		//			g.drawImage(img.getImage(), (int)(img.getX()), (int)(img.getY()), null);
 		//		for(MovingImage img : bottom)
@@ -271,15 +274,12 @@ class ImagePanel extends JPanel {
 	}
 
 	//Replaces the list of foreground images with the one given, and repaints the panel
-	public void updateImages(MovingImage newFallingBlock)
+	public void updateImages(MovingImage[][] newGrid)
 	{
-//		fallingBlock = newFallingBlock;
+		grid = newGrid;
 		repaint();	//This repaints stuff... you don't need to know how it works
 	}
-	public void updateImages()
-	{
-		repaint();	//This repaints stuff... you don't need to know how it works
-	}
+
 }
 
 
