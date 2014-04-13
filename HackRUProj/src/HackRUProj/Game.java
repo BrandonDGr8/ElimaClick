@@ -19,6 +19,7 @@ public class Game implements MouseListener{
 
 	public static boolean lost;
 	
+
 	private JFrame background;
 	private ImagePanel back;
 	public static boolean playedOnce;	
@@ -91,6 +92,7 @@ public class Game implements MouseListener{
 		grid = new MovingImage[15][9]; /*creating a 15x9 that represents the grid*/
 //		block = new MovingImage("RedBlx.png",31,31);
 		fallingBlocks = new ArrayList<MovingImage>();
+		setInitialBlocks();
 		draw();
 	}
 
@@ -101,8 +103,11 @@ public class Game implements MouseListener{
 				break;
 			}
 		}		
+
+		
 	}
-	
+
+
 	public void drop(){
 		for (int row = 0; row < 14; row++){
 			for (int col = 0; col < 9; col++) {
@@ -118,6 +123,7 @@ public class Game implements MouseListener{
 				break;
 			}
 		}
+
 	}
 
 	public int randomCol(){
@@ -150,7 +156,39 @@ public class Game implements MouseListener{
 			fallingBlocks.add(new MovingImage("RedBlx.png", 1, 1));
 			setBlockPosition(0, x, fallingBlocks.get(fallingBlocks.size()-1));
 		}
-		System.out.println(x);
+	}
+	
+	public void setInitialBlocks(){
+		for (int row = 14; row > 10; row--){
+			for (int col = 0; col < 9; col++){
+				randomColor(row, col);
+			}
+		}
+	}
+	
+	public void randomColor(double x, double y){
+		Random ran = new Random();
+		int n = ran.nextInt(5);
+		if (n == 0){
+			fallingBlocks.add(new MovingImage("BlueBlx.png", 1, 1));
+			setBlockPosition(x, y, fallingBlocks.get(fallingBlocks.size()-1));
+		}
+		else if (n == 1){
+			fallingBlocks.add(new MovingImage("BrownBlx.png", 1, 1));
+			setBlockPosition(x, y, fallingBlocks.get(fallingBlocks.size()-1));
+		}
+		else if (n == 2){
+			fallingBlocks.add(new MovingImage("GreenBlk.png", 1, 1));
+			setBlockPosition(x, y, fallingBlocks.get(fallingBlocks.size()-1));
+		}
+		else if (n == 3){
+			fallingBlocks.add(new MovingImage("PinkBlx.png", 1, 1));
+			setBlockPosition(x, y, fallingBlocks.get(fallingBlocks.size()-1));
+		}
+		else if (n == 4){
+			fallingBlocks.add(new MovingImage("RedBlx.png", 1, 1));
+			setBlockPosition(x, y, fallingBlocks.get(fallingBlocks.size()-1));
+		}
 	}
 
 	public void mouseExited(MouseEvent e)
@@ -269,6 +307,11 @@ class ImagePanel extends JPanel {
 			setFont(new Font("Arial",Font.BOLD,50));
 			g.drawString("You lose!",150,300);
 		}
+
+		g.drawString(    "Instructions:", 400,150);
+		g.drawString(    "Click boxes to change color",400,200);
+		g.drawString(    "Match colors together",400,230);
+		g.drawString(    "Don't let colors get to the top!",400,260);
 		//		g.setColor(Color.WHITE);
 		//		g.setFont(new Font("Arial",Font.BOLD,20));
 		//		g.drawString("Distance: " + PlaneForm.distance,30,500);
