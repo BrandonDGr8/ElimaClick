@@ -24,27 +24,29 @@ public class Game implements MouseListener{
 	public static int maxScore;
 	public static int[] row;
 	public static int[] column;
-	
+	public static MovingImage[][] grid;
+
 	private MovingImage block;
+	private ArrayList<MovingImage> fallingBlock;
 
 	public Game(){
-//		grid = new int[15][9];
-//		for (int row = 0; row < 15; row++){
-//			for (int col = 0; col < 9; col++){
-//				grid[row][col] = 
-//			}
-//		}
-		row = new int[15];
-		for (int i : row)
-			row[i] = i;
-		column = new int[9];
-		for (int i : column)
-			column[i] = i;
-		
+		//		grid = new int[15][9];
+		//		for (int row = 0; row < 15; row++){
+		//			for (int col = 0; col < 9; col++){
+		//				grid[row][col] = 
+		//			}
+		//		}
+		//		row = new int[15];
+		//		for (int i : row)
+		//			row[i] = i;
+		//		column = new int[9];
+		//		for (int i : column)
+		//			column[i] = i;
+
 		load(new File("Best.txt"));
 		initiate();
 	}
-	
+
 	public void load(File file)
 	{
 		try
@@ -63,31 +65,60 @@ public class Game implements MouseListener{
 		}
 	}
 
+	public void setBlockPosition(double x, double y, MovingImage a) {
+		grid[(int)x][(int)y] = a; /*fill the appropriate slot in the grid array with the inputted MovingImage*/
+		a.setPosition(x*36 + 31,y*36 + 31); /*35 because every block is 35 wide, 100 as a placeholder for the offset of the grid itself from the edge of the game screen*/
+	}
+
+
+
 	public void initiate(){
 		if(!playedOnce){
 			background = new JFrame("HackRU Game"); 
 			background.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //closes the program when the window is closed
 			background.setResizable(false); //don't allow the user to resize the window
-			background.setSize(new Dimension(800,625));
+			background.setSize(new Dimension(800,624));
 			background.setVisible(true);
 			back = new ImagePanel("bgandgrid.png");
 			background.add(back);
 			back.addMouseListener(this);
 		}
 		playedOnce = true;
+		grid = new MovingImage[15][9]; /*creating a 15x9 that represents the grid*/
 		block = new MovingImage("RedBlx.png",31,31);
+		fallingBlock = new ArrayList<MovingImage>();
+		draw();
+	}
+
+	public void draw(){
+		setBlockPosition(3,6,block);
 		back.updateImages(block);
 	}
-	
-	
+
+
 	public void drop(){
-		
+		randomColor();
+//		setBlockPosition()
 	}
 
 	public int randomCol(){
 		Random ran = new Random(9);
 		int a = ran.nextInt(9);
 		return a;
+	}
+
+	public void randomColor(){
+		Random ran = new Random(4);
+		if (ran.nextInt() == 0)
+			fallingBlock.add(new MovingImage("BlueBlx.png",31,randomCol()));
+		else if (ran.nextInt() == 1)
+			fallingBlock.add(new MovingImage("BrownBlx.png",31,randomCol()));
+		else if (ran.nextInt() == 2)
+			fallingBlock.add(new MovingImage("GreenBlk.png",31,randomCol()));
+		else if (ran.nextInt() == 3)
+			fallingBlock.add(new MovingImage("PinkBlx.png",31,randomCol()));
+		else if (ran.nextInt() == 1)
+			fallingBlock.add(new MovingImage("RedBlx.png",31,randomCol()));
 	}
 
 	public void mouseExited(MouseEvent e)
@@ -116,7 +147,7 @@ public class Game implements MouseListener{
 	//Called when the mouse is released
 	public void mouseClicked(MouseEvent e)
 	{
-
+		drop();
 	}
 }
 
