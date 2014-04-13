@@ -27,7 +27,8 @@ public class Game implements MouseListener{
 	public static MovingImage[][] grid;
 
 	private MovingImage block;
-	private MovingImage fallingBlock;
+	private ArrayList<MovingImage> fallingBlocks;
+//	private MovingImage fallingBlock;
 
 	public Game(){
 		//		grid = new int[15][9];
@@ -86,7 +87,7 @@ public class Game implements MouseListener{
 		playedOnce = true;
 		grid = new MovingImage[15][9]; /*creating a 15x9 that represents the grid*/
 //		block = new MovingImage("RedBlx.png",31,31);
-		fallingBlock = new MovingImage("EmptyBlock.png",1,1);
+		fallingBlocks = new ArrayList<MovingImage>();
 		draw();
 	}
 
@@ -116,24 +117,24 @@ public class Game implements MouseListener{
 		Random ran = new Random();
 		int n = ran.nextInt(5);
 		if (n == 0){
-			fallingBlock.setImage("BlueBlx.png");
-			setBlockPosition(randomCol(), 0, fallingBlock);
+			fallingBlocks.add(new MovingImage("BlueBlx.png", 1, 1));
+			setBlockPosition(randomCol(), 0, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 1){
-			fallingBlock.setImage("BrownBlx.png");
-			setBlockPosition(randomCol(), 0, fallingBlock);
+			fallingBlocks.add(new MovingImage("BrownBlx.png", 1, 1));
+			setBlockPosition(randomCol(), 0, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 2){
-			fallingBlock.setImage("GreenBlk.png");
-			setBlockPosition(randomCol(), 0, fallingBlock);
+			fallingBlocks.add(new MovingImage("GreenBlk.png", 1, 1));
+			setBlockPosition(randomCol(), 0, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 3){
-			fallingBlock.setImage("PinkBlx.png");
-			setBlockPosition(randomCol(), 0, fallingBlock);
+			fallingBlocks.add(new MovingImage("PinkBlx.png", 1, 1));
+			setBlockPosition(randomCol(), 0, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 		else if (n == 4){
-			fallingBlock.setImage("RedBlx.png");
-			setBlockPosition(randomCol(), 0, fallingBlock);
+			fallingBlocks.add(new MovingImage("RedBlx.png", 1, 1));
+			setBlockPosition(randomCol(), 0, fallingBlocks.get(fallingBlocks.size()-1));
 		}
 	}
 
