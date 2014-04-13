@@ -17,6 +17,8 @@ public class Game implements MouseListener{
 		Game a = new Game();
 	}
 
+	public static boolean lost;
+	
 	private JFrame background;
 	private ImagePanel back;
 	public static boolean playedOnce;	
@@ -84,6 +86,7 @@ public class Game implements MouseListener{
 			background.add(back);
 			back.addMouseListener(this);
 		}
+		lost = false;
 		playedOnce = true;
 		grid = new MovingImage[15][9]; /*creating a 15x9 that represents the grid*/
 //		block = new MovingImage("RedBlx.png",31,31);
@@ -94,19 +97,25 @@ public class Game implements MouseListener{
 	public void draw(){
 		while(true){
 			back.updateImages(grid);
-		}
-		
+			if(lost){
+				break;
+			}
+		}		
 	}
-
-
+	
 	public void drop(){
 		for (int row = 0; row < 14; row++){
 			for (int col = 0; col < 9; col++) {
 				if (grid[row][col] != null && grid[row+1][col] == null){
 					setBlockPosition(row+1,col,grid[row][col]);
 					grid[row][col] = null;
-					System.out.println("Hi");
 				}	
+			}
+		}
+		for (int col = 0; col < 9; col++) {
+			if (grid[0][col] != null) {
+				lost = true;
+				break;
 			}
 		}
 	}
@@ -256,6 +265,10 @@ class ImagePanel extends JPanel {
 			g.drawString("Highscore: " + Game.score,400,100);
 		else
 			g.drawString("Highscore: " + Game.maxScore,400,100);
+		if (Game.lost){
+			setFont(new Font("Arial",Font.BOLD,50));
+			g.drawString("You lose!",150,300);
+		}
 		//		g.setColor(Color.WHITE);
 		//		g.setFont(new Font("Arial",Font.BOLD,20));
 		//		g.drawString("Distance: " + PlaneForm.distance,30,500);
