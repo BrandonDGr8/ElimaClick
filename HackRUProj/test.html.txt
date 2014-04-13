@@ -1,1 +1,4 @@
-hello world
+		g.drawString(    "Instructions:", 400,150);
+		g.drawString(    "Click boxes to change color",400,200);
+		g.drawString(    "Match colors together",400,230);
+		g.drawString(    "Don't let colors get to the top!",400,260);
